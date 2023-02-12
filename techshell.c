@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <wait.h>
-#define DEBUG 1
+#define DEBUG 0
 
 // Displays cwd and returns user input
 char* CommandPrompt() {
@@ -41,7 +41,7 @@ struct ShellCommand ParseCommandLine(char* input) {
     command.arguments[command.length] = strtok(input, " "); // split input by spaces
     command.binary = command.arguments[command.length]; // sets binary to first argument
     char* arg = strtok(NULL, " ");
-    do {
+    while (arg != NULL) {
         if (strcmp(arg, "<") == 0) {
             command.input_file = strtok(NULL, " ");
             arg = strtok(NULL, " ");
@@ -55,7 +55,7 @@ struct ShellCommand ParseCommandLine(char* input) {
         
         command.arguments[++command.length] = arg; // get next piece
         arg = strtok(NULL, " ");
-    } while (arg != NULL); // token is null after last piece
+    }
 
     // Debug
     if (DEBUG) {
@@ -71,28 +71,25 @@ struct ShellCommand ParseCommandLine(char* input) {
     return command;
 }
 
-        // if (command.arguments[command.length] == "<") {
-        //     FILE* infile = fopen(command.input_file, "r");
-        //     dup2(fileno(infile), 0);
-        //     fclose(infile); 
-        // }
-        // if (command.arguments[command.length] == ">") {
-        //     FILE* outfile = fopen(command.output_file, "w");
-        //     dup2(fileno(outfile), 1);
-        //     fclose(outfile); 
-        // }
-
 // Executes a shell command
 void ExecuteCommand(struct ShellCommand command) {
     // fork, exec, error handling (invalaid commands, errors, etc)
     if (strcmp(command.binary, "cd") == 0) {
         if (chdir(command.arguments[1]) == -1) {
             printf("Error %i (%s)\n", errno, strerror(errno));
-        } else {
-            
         }
     } else {
         if (fork() == 0) {
+            if (command.input_file) {
+                FILE* infile = fopen(command.input_file, "r");
+                dup2(fileno(infile), 0);
+                fclose(infile); 
+            }
+            if (command.output_file) {
+                FILE* outfile = fopen(command.output_file, "w");
+                dup2(fileno(outfile), 1);
+                fclose(outfile); 
+            }
             execvp(command.binary, command.arguments);
             printf("Error %i (%s)\n", errno, strerror(errno));
             exit(1);
@@ -108,7 +105,7 @@ int main() {
     for(;;) {
         input = CommandPrompt();
         command = ParseCommandLine(input);
-        // ExecuteCommand(command);
+        ExecuteCommand(command);
     }
     exit(0);
 }
