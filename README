@@ -1,6 +1,25 @@
 Aiden Plauche, Cullen Duval
 
 - The inner workings of the program -
+First, the current working directory is displayed, and the user is prompted for input.
+This input (256 char max) is stored and the newline is stripped from the end.
+If the input equals "exit", the program exits immediately.
 
+Next, this input is broken down into its components and stored in the ShellCommand struct.
+Using strtok, the input is split by " ", with each piece being saved in a list of arguments.
+The first piece is also saved separately as the binary to be called later.
+Before saving, if the argument equals "<", the next argument is saved as the input file.
+Additionally, if the argument equals ">", the next argument is saved as the output file.
+The output file must be after the input file, and no arguments can be after I/O redirection.
+A null filename or any arguments after I/O redirection will be ignored.
+(If DEBUG is 1, the contents of the struct and number of arguments will be printed.)
 
-- Which parts work/how to test them (if applicable) -
+Finally, the command moves to the execution function.
+If the binary is null, no command is executed (i.e., nothing was entered).
+If the command is "cd", chdir is called (and error information printed if applicable)
+Otherwise, the program is forked.
+The child redirects stdin and stdout if input/output files are specified respectively.
+Then, the child calls execvp with the binary/arguments and prints error info if applicable.
+The parent waits for the child to terminate (either by execvp or exit(1) if errored).
+
+After this, the main loop repeats, re-requesting user input.

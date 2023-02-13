@@ -73,7 +73,7 @@ struct ShellCommand ParseCommandLine(char* input) {
 
 // Executes a shell command
 void ExecuteCommand(struct ShellCommand command) {
-    if (!command.binary) return;
+    if (!command.binary) return; // if nothing was entered, don't execute a command
     if (strcmp(command.binary, "cd") == 0) { // change directory builtin command
         if (chdir(command.arguments[1]) == -1) { // if failed, print errno/string
             printf("Error %i (%s)\n", errno, strerror(errno));
