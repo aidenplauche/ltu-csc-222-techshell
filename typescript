@@ -1,0 +1,60 @@
+Script started on 2023-02-13 16:02:16-06:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="80" LINES="24"]
+[?2004hcduval911@cduval911-VirtualBox:~/Desktop/CSC222-Techshell-main$ ./a.out
+[?2004l/home/cduval911/Desktop/CSC222-Techshell-main$ cd ..
+/home/cduval911/Desktop$ cd CS     pwd
+/home/cduval911/Desktop
+/home/cduval911/Desktop$ cd CSC@ 222-Techshell-main
+/home/cduval911/Desktop/CSC222-Techshell-main$ pwd
+/home/cduval911/Desktop/CSC222-Techshell-main
+/home/cduval911/Desktop/CSC222-Techshell-main$ ls-    -lj h techshell.c
+-r-------- 1 cduval911 cduval911 4.2K Feb 13 15:45 techshell.c
+/home/cduval911/Desktop/CSC222-Techshell-main$ chmod 500
+chmod: missing operand after ‘500’
+Try 'chmod --help' for more information.
+/home/cduval911/Desktop/CSC222-Techshell-main$ ^[[A^[[B        chmod 500 techshell.c
+/home/cduval911/Desktop/CSC222-Techshell-main$ ^[[A^[[A        ls -lh techshell.c
+-r-x------ 1 cduval911 cduval911 4.2K Feb 13 15:45 techshell.c
+/home/cduval911/Desktop/CSC222-Techshell-main$ chmod 777 techshell.c
+/home/cduval911/Desktop/CSC222-Techshell-main$ ls /root
+ls: cannot open directory '/root': Permission denied
+/home/cduval911/Desktop/CSC222-Techshell-main$ horseface
+Error 2 (No such file or directory)
+/home/cduval911/Desktop/CSC222-Techshell-main$ cd /root
+Error 13 (Permission denied)
+/home/cduval911/Desktop/CSC222-Techshell-main$ ps
+    PID TTY          TIME CMD
+   3772 pts/1    00:00:00 bash
+   3780 pts/1    00:00:00 a.out
+   3797 pts/1    00:00:00 ps
+/home/cduval911/Desktop/CSC222-Techshell-main$ whereis ps
+ps: /usr/bin/ps /usr/share/man/man1/ps.1.gz
+/home/cduval911/Desktop/CSC222-Techshell-main$ /bin/ps u
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+cduval9+    1350  0.0  0.1 171036  6388 tty2     Ssl+ 15:45   0:00 /usr/libexec/
+cduval9+    1358  0.0  0.3 231684 15368 tty2     Sl+  15:45   0:00 /usr/libexec/
+cduval9+    3769  0.0  0.0  18888  4148 pts/0    Ss   16:02   0:00 bash
+cduval9+    3771  0.0  0.0  17040  1080 pts/0    S+   16:02   0:00 script
+cduval9+    3772  0.0  0.0  18888  4192 pts/1    Ss   16:02   0:00 bash -i
+cduval9+    3780  0.0  0.0   2772  1628 pts/1    S+   16:02   0:00 ./a.out
+cduval9+    3800  0.0  0.0  21324  1552 pts/1    R+   16:05   0:00 /bin/ps u
+/home/cduval911/Desktop/CSC222-Techshell-main$ ls
+a.out  README  techshell.c  typescript
+/home/cduval911/Desktop/CSC222-Techshell-main$ ps u >ps.^[[D^[[D        ^[[D        ps.out
+/home/cduval911/Desktop/CSC222-Techshell-main$ wc -1 < ps.out
+wc: invalid option -- '1'
+Try 'wc --help' for more information.
+/home/cduval911/Desktop/CSC222-Techshell-main$ wx c -l < ps.out
+8
+/home/cduval911/Desktop/CSC222-Techshell-main$ cat     wc -l < ps.out > wc.out
+/home/cduval911/Desktop/CSC222-Techshell-main$ cat wc.out
+8
+/home/cduval911/Desktop/CSC222-Techshell-main$ ls
+a.out  ps.out  README  techshell.c  typescript	wc.out
+/home/cduval911/Desktop/CSC222-Techshell-main$ rm ps.out wc.out
+/home/cduval911/Desktop/CSC222-Techshell-main$ ls
+a.out  README  techshell.c  typescript
+/home/cduval911/Desktop/CSC222-Techshell-main$ exit
+[?2004hcduval911@cduval911-VirtualBox:~/Desktop/CSC222-Techshell-main$ exit
+[?2004lexit
+
+Script done on 2023-02-13 16:07:43-06:00 [COMMAND_EXIT_CODE="0"]
