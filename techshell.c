@@ -53,6 +53,9 @@ struct ShellCommand ParseCommandLine(char* input) {
             break; // nothing should come after output redirection
         }
         
+        if (arg[0] == '&')
+            arg = getenv(&arg[1]);
+        
         command.arguments[++argNum] = arg; // saves this argument
         arg = strtok(NULL, " "); // gets the next argument
     }
@@ -101,9 +104,15 @@ void ExecuteCommand(struct ShellCommand command) {
 int main() {
     char* input;
     struct ShellCommand command;
+
+    // repeatedly prompt the user for input
     for(;;) {
         input = CommandPrompt();
+
+        // parse the command line
         command = ParseCommandLine(input);
+
+        // execute the command
         ExecuteCommand(command);
     }
     exit(0);
