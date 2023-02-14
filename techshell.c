@@ -53,7 +53,7 @@ struct ShellCommand ParseCommandLine(char* input) {
             break; // nothing should come after output redirection
         }
         
-        if (arg[0] == '&')
+        if (arg[0] == '$')
             arg = getenv(&arg[1]);
         
         command.arguments[++argNum] = arg; // saves this argument
