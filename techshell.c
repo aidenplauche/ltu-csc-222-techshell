@@ -25,17 +25,18 @@ char* CommandPrompt() {
 // Wrapper for shell command
 struct ShellCommand {
     char* binary; // the binary to execute (e.g., ls);
-    char* arguments[256]; // the arguments to send to the binary;
+    char** arguments; // the arguments to send to the binary;
     char* input_file; // file to redirect stdin to
     char* output_file; // file to redirect stdout to
 };
 
 // Processes the user input as a Shell Command
 struct ShellCommand ParseCommandLine(char* input) {
-    struct ShellCommand command = {NULL, {""}, NULL, NULL}; // initializes shellCommand structure
+    struct ShellCommand command = {NULL, NULL, NULL, NULL}; // initializes shellCommand structure
 
     // stores the arguments from input into the structure variable arguments
     int argNum = 0;
+    command.arguments = malloc(sizeof(char*) * 2);
     command.arguments[argNum] = strtok(input, " "); // split input by spaces
     command.binary = command.arguments[argNum]; // sets binary to first argument
 
@@ -56,21 +57,24 @@ struct ShellCommand ParseCommandLine(char* input) {
         if (arg[0] == '$')
             arg = getenv(&arg[1]);
         
-        command.arguments[++argNum] = arg; // saves this argument
+        char** args = realloc(command.arguments, sizeof(char*) * (2 + argNum + 1)); // resizes the argument array
+        if (argNum % 2 == 1) args[argNum + 2] = NULL; // replaces the null terminator that disappears on odd args
+        args[++argNum] = arg; // saves this argument
+        command.arguments = args; // overwrites the old argument array
         arg = strtok(NULL, " "); // gets the next argument
     }
 
     // Debug print (contents of command struct and number of arguments)
     if (DEBUG) {
         printf("bin %s\n", command.binary);
-        for (int i = 0; i <= argNum; i++){
+        for (int i = 0; i <= argNum + 1; i++){
             printf("arg%i %s\n", i, command.arguments[i]);
         }
         printf("inputfile %s\n", command.input_file ? command.input_file : "NULL");
         printf("outputfile %s\n", command.output_file ? command.output_file : "NULL");
         printf("number of args %i\n", argNum);
     }
-    
+
     return command;
 }
 
